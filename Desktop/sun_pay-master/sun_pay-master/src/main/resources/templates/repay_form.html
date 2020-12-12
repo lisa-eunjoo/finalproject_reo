@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>청산</title>
+</head>
+<body>
+    <h1>청산</h1>
+    <tr>
+        <th>잔액</th>
+        <td><span th:text="*{request.getTo().getPoint()}"></span></td>
+    </tr>
+    <tr>
+        <th>청산금액</th>
+        <td><span th:text="*{request.getAmount()}"></span></td>
+    </tr>
+    <tr>
+        <th>수령자</th>
+        <td><span th:text="*{request.getFrom().getName()}"></span></td>
+    </tr>
+    <form th:action="@{repay}" method="post">
+        <input type="hidden" name="request_id" th:value="${request.getId()}">
+        <button type="submit">청산</button>
+    </form>
+</body>
+</html>

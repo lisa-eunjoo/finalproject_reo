@@ -1,0 +1,13 @@
+.request_form {
+  border-radius: 50px;
+  background-color: lightskyblue;
+  width: 500px;
+  height: 600px;
+  left: 50%;
+  justify-content: center;
+  position: relative;
+  margin-left: -250px;
+  bottom: 50%;
+  margin-top: 150px;
+  padding: 50px 50px;
+}

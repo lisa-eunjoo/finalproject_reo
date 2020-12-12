@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>계좌리스트</title>
+</head>
+<body>
+<table class="table">
+    <tr>
+        <td>핀테크이용번호</td>
+        <td>계좌별명</td>
+        <td>은행</td>
+        <td>계좌 번호</td>
+    </tr>
+
+    <tr th:each="res : ${me.getRes_list()}">
+        <form th:action="@{balance_out}" method="get">
+
+                <td th:text="${res.getFintech_use_num()}"></td>
+                <td th:text="${res.getAccount_alias()}"></td>
+                <td th:text="${res.getBank_name()}"></td>
+                <td th:text="${res.getAccount_num_masked()}"></td>
+                <input type="hidden"  name="fintech_use_num" th:value="${res.getFintech_use_num()}">
+                <td><button type="submit">선택</button></td>
+        </form>
+    </tr>
+
+</table>
+</body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<!-- jQuery and JS bundle w/ Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+</html>

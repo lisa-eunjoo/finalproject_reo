@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>송금 내역</title>
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <title>Friends | Sunpay </title>
+    <!-- Google font file. If you want you can change. -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900"
+            rel="stylesheet"
+    />
+
+    <!-- Fontawesome font file css -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+
+    <!-- Animate css file for css3 animations. for more : https://daneden.github.io/animate.css -->
+    <!-- Only use animate action. If you dont use animation, you don't have to add.-->
+    <link rel="stylesheet" type="text/css" href="css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="css/cryptocoins.css" />
+    <link rel="stylesheet" type="text/css" href="css/request.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/c3-chart/c3.css" />
+
+    <!-- Swiper slider css file -->
+    <link rel="stylesheet" href="css/swiper.min.css" />
+
+    <!--turbo slider plugin css file -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="plugins/turbo-slider/turbo.css"
+    />
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>송금시간</th>
+        <th>송금 금액</th>
+        <th>환급일</th>
+        <th>수령자</th>
+    </tr>
+    <tr th:each="request : ${request_list}">
+        <td th:text="${request.getPay().getPayDay()}"></td>
+        <td th:text="${request.getPay().getPrice()}"></td>
+        <td th:text="${request.getPay().getReturnDay()}"></td>
+        <td th:text="${request.getPay().getSenderName()}"></td>
+    </tr>
+</table>
+
+<nav class="nav">
+    <ul class="nav__list">
+        <li class="nav__list-item">
+            <a th:href="@{request}" class="nav__list-link">
+                <i class="fas fa-home"></i>
+            </a>
+        </li>
+        <li class="nav__list-item">
+            <a th:href="@{/requested}" class="nav__list-link">
+                <i class="fas fa-list-alt"></i>
+            </a>
+        </li>
+
+        <li class="nav__list-item">
+            <a th:href="@{/receive_request}" class="nav__list-link">
+                <i class="far fa-list-alt"></i>
+            </a>
+        </li>
+
+        <li class="nav__list-item">
+            <a th:href="@{/payed}" class="nav__list-link">
+                <i class="fas fa-arrow-circle-up"></i>
+            </a>
+        </li>
+
+        <li class="nav__list-item">
+            <a th:href="@{/receive_payed}" class="nav__list-link">
+                <i class="fas fa-arrow-circle-down"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+</html>

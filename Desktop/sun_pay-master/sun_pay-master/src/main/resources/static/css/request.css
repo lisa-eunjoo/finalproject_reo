@@ -1,0 +1,33 @@
+.request.btn {
+  width: 450px;
+  height: 100px;
+  font-size: 26px;
+  display: block;
+  border-color: lavender;
+  border-radius: 10px;
+  background-color: ghostwhite;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 70px auto;
+  color: black;
+}
+
+.request.div {
+  justify-content: center;
+  align-items: center;
+}
+
+#my_modal {
+  display: none;
+  width: 300px;
+  /* padding: 120px 160px; */
+  background-color: #fefefe;
+  border: 1px solid #888;
+  border-radius: 3px;
+}
+
+#my_modal .modal_close_btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

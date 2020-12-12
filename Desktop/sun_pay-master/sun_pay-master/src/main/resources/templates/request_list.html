@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <meta content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <title>Friends | Sunpay </title>
+    <!-- Google font file. If you want you can change. -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900"
+            rel="stylesheet"
+    />
+
+    <!-- Fontawesome font file css -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+
+    <!-- Animate css file for css3 animations. for more : https://daneden.github.io/animate.css -->
+    <!-- Only use animate action. If you dont use animation, you don't have to add.-->
+    <link rel="stylesheet" type="text/css" href="css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="css/cryptocoins.css" />
+    <link rel="stylesheet" type="text/css" href="css/request.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/c3-chart/c3.css" />
+
+    <!-- Swiper slider css file -->
+    <link rel="stylesheet" href="css/swiper.min.css" />
+
+    <!--turbo slider plugin css file -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="plugins/turbo-slider/turbo.css"
+    />
+  </head>
+  <body>
+  
+    <header class="header">
+      <div class="header__header-column">
+        <h1 class="header__title">홈</h1>
+      </div>
+      <div class="header__header-column">
+        <span class="header__icon">
+          <a th:href="@{me_in}">충전</a>
+        </span>
+        <span class="header__icon">
+          <a th:href="@{me_out}">출금</a>
+        </span>
+      </div>
+    </header>
+
+    <main class="friends">
+      <header class="friends__header">
+        <div class="friends__friend friend">
+          <div class="friend__column">
+            <img th:src="@{/img/profile.jfif}" class="g-avatar friend__avatar" />
+            <div class="friend__content">
+              <span class="friend__name">
+                나
+              </span>
+              <span class="friend__status">
+                빌려드림
+              </span>
+            </div>
+          </div>
+          <div class="friend__column">
+            <div>
+              썬페이의 포인트 :
+              <span th:text="*{user.getPoint()}">
+              </span>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <ul class="friends__list">
+        <h5 class="friends__title">친구 목록</h5>
+        <li class="friends__friend friend friend--lg" th:each="friend : ${friend_list}">
+
+          <div class="friend__column">
+            <img th:src="@{/img/profile.jfif}" class="friend__avatar" />
+            <div class="friend__content">
+              <span class="friend__name" th:text="${friend.getFrom().getName()}">
+              </span>
+            </div>
+          </div>
+
+          <div class="friend__column">
+            <div class="friend__now-listening">
+              <span>
+                <a  th:href="@{'/request/'+${friend.getFrom().getId()}}">요청</a>
+
+
+              </span>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </main>
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__list-item">
+          <a th:href="@{request}" class="nav__list-link">
+            <i class="fas fa-home"></i>
+          </a>
+        </li>
+        <li class="nav__list-item">
+          <a th:href="@{/requested}" class="nav__list-link">
+            <i class="fas fa-list-alt"></i>
+          </a>
+        </li>
+
+        <li class="nav__list-item">
+          <a th:href="@{/receive_request}" class="nav__list-link">
+            <i class="far fa-list-alt"></i>
+          </a>
+        </li>
+
+        <li class="nav__list-item">
+          <a th:href="@{/payed}" class="nav__list-link">
+            <i class="fas fa-arrow-circle-up"></i>
+          </a>
+        </li>
+
+        <li class="nav__list-item">
+          <a th:href="@{/receive_payed}" class="nav__list-link">
+            <i class="fas fa-arrow-circle-down"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+  </body>
+</html>
