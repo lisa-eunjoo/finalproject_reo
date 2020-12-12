@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.reo.client.reservation.dao.ReservationDAO">
+	<!-- 회원 예약 -->
+	<insert id="makeReservation" parameterType="reservation">
+		INSERT INTO reservation (res_no, mem_email, mem_name, mem_agentName, mem_tel, res_datetime, 
+		res_startdatetime, res_enddatetime, room_price, res_state, res_memo, res_people, off_no, 
+		off_name, off_unit, off_stdAddr) 
+		VALUES (#{res_no}, #{mem_email}, #{mem_name}, #{mem_agentName}, #{mem_tel}, #{res_datetime}, 
+		#{res_startdatetime}, #{res_enddatetime}, #{room_price}, '예약신청', #{res_memo}, #{res_people}, 
+		#{off_no}, #{off_name}, #{off_unit}, #{off_stdAddr})
+	</insert>
+
+	<!-- 예약 후 결제 전 예약 번호 넘겨주기 -->
+	<select id="getMaxResNo" resultType="int">
+		SELECT MAX(res_no) FROM reservation
+	</select>
+
+	<!-- 날짜 형식 가져오기 -->
+	<select id="getResAddList" parameterType="reservation" resultType="reservation">
+		SELECT res_startdatetime, res_enddatetime FROM reservation WHERE 
+		DATE_FORMAT(res_startdatetime, '%Y-%m-%d') = DATE_FORMAT(#{res_startdatetime}, '%Y-%m-%d') AND 
+		off_no = #{off_no} AND res_state != '예약취소'
+	</select>
+
+	<!-- 월 예약 off_no 가져오기 (ajax로) -->
+	<select id="getResMonth" parameterType="reservation" resultType="reservation">
+		SELECT res_startdatetime, res_enddatetime, off_no FROM reservation WHERE 
+		off_no = #{off_no} AND res_state != '예약취소'
+	</select>
+
+	<!-- 내 예약 리스트(유효한 예약) -->
+	<select id="getMyResList" resultType="reservation">
+		SELECT * FROM reservation 
+		<if test="mem_sector == '기업'">
+		LEFT JOIN office USING(mem_email)
+		</if>
+		WHERE mem_email = #{mem_email}
+		<![CDATA[
+		AND res_startdatetime > DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+		]]>
+		GROUP BY res_no ORDER BY res_no DESC
+		<if test="device != 'Mobile'">
+		LIMIT #{LIMIT} OFFSET #{OFFSET}
+		</if>
+	</select>
+
+	<!-- 내 지난 예약 보여주기 -->
+	<select id="getResPastList" resultType="reservation">
+		SELECT * FROM reservation 
+		<if test="mem_sector == '기업'">
+		LEFT JOIN office USING(mem_email)
+		</if>
+		WHERE mem_email = #{mem_email}
+		<![CDATA[
+		AND res_startdatetime <= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+		]]>
+		GROUP BY res_no ORDER BY res_no DESC
+		<if test="device != 'Mobile'">
+		LIMIT #{LIMIT} OFFSET #{OFFSET}
+		</if>
+	</select>
+
+	<!-- 내예약(유효) 레코드 수 -->
+	<select id="getResNowCount" resultType="int" parameterType="reservation">
+		SELECT COUNT(*) FROM (SELECT res_no FROM reservation 
+		<if test="mem_sector == '기업'">
+		LEFT JOIN office USING(mem_email)
+		</if>
+		WHERE mem_email = #{mem_email}
+		<![CDATA[
+		AND res_startdatetime > DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') GROUP BY res_no
+		]]>
+		) res
+	</select>
+
+	<!-- 내예약(지난) 레코드 수 -->
+	<select id="getResPastCount" resultType="int" parameterType="reservation">
+		SELECT COUNT(*) FROM (SELECT res_no FROM reservation 
+		<if test="mem_sector == '기업'">
+		LEFT JOIN office USING(mem_email)
+		</if>
+		WHERE mem_email = #{mem_email}
+		<![CDATA[
+		AND res_startdatetime <= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') GROUP BY res_no
+		]]>
+		) res
+	</select>
+
+	<!-- 상세 예약 내역 확인 --> 
+	<select id="getMyResInfo" parameterType="reservation" resultType="reservation">
+		SELECT * FROM reservation LEFT JOIN pay USING(res_no) WHERE res_no = #{res_no} ORDER BY pay_date DESC LIMIT 1
+	</select>
+
+	<!-- 내 예약 취소 -->
+	<update id="updateMyResInfoDel" parameterType="reservation">
+		UPDATE reservation SET res_state = '예약취소' WHERE res_no = #{res_no}
+	</update>
+
+	<!-- 내 예약 수정 -->
+	<update id="updateMyResInfoUpdate" parameterType="reservation">
+		UPDATE reservation SET res_startdatetime = #{res_startdatetime}, res_enddatetime = #{res_enddatetime}, res_datetime = #{res_datetime}, res_people = #{res_people}, res_memo = #{res_memo}, room_price = #{room_price} WHERE res_no = #{res_no} AND off_no = #{off_no}
+	</update>
+
+	<!-- 예약 변경할때 예약 시작날짜 비교 조회-->
+	<select id="getResUpdateSel" resultType="reservation">
+	SELECT res_startdatetime FROM reservation WHERE mem_email=#{mem_email} AND res_no = #{res_no} AND off_no = #{off_no};
+	</select>
+
+	<!-- 탈퇴회원 처리 -->
+	<update id="updatedeleteMemberBefore" parameterType="String">
+		UPDATE reservation SET mem_email = '탈퇴한 회원' WHERE mem_email = #{mem_email}
+	</update>
+
+	<!-- 관리자단 예약 리스트  -->
+	<select id="getAllResList" resultType="reservation">
+		SELECT * FROM reservation ORDER BY res_no DESC LIMIT #{LIMIT} OFFSET #{OFFSET};
+	</select>
+
+	<!-- 관리자단 예약 현황, 전체 레코드 수 -->
+	<select id="getResCount" resultType="int">
+		SELECT COUNT(*) FROM reservation
+	</select>
+
+	<!-- 관리자단 예약 취소 -->
+	<delete id="updateAdResDel" parameterType="reservation">
+		UPDATE reservation SET res_state = '예약취소' WHERE res_no = #{res_no}
+	</delete>
+
+</mapper>

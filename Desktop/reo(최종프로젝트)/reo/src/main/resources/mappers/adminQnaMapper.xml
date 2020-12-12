@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.reo.admin.qna.dao.QnaAdminDAO">
+
+	<insert id="insertQna">
+		INSERT INTO qnatemp (qna_email, qna_name, qna_title, qna_content, qna_secret, qna_password)
+		VALUES (#{qna_email}, #{qna_name}, #{qna_title}, #{qna_content}, #{qna_secret}, #{qna_password})
+	</insert>
+
+	<update id="updateQna">
+		UPDATE qnatemp SET qna_title = #{qna_title},
+		qna_content = #{qna_content} WHERE qna_no = #{qna_no}
+	</update>
+
+	<delete id="deleteQna">
+		DELETE FROM qnatemp where qna_no = #{qna_no}
+	</delete>
+
+	<delete id="deleteQnaSingle">
+		DELETE FROM qnatemp where qna_no = #{qna_no}
+	</delete>
+
+	<select id="getQnaList" resultType="qna">
+		SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY qna_no DESC) AS rNum
+		FROM qnatemp WHERE 1 = 1
+		<include refid="search"></include>
+		) qt
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY qna_no DESC
+	</select>
+
+	<update id="setAnswer">
+		UPDATE qnatemp SET answer_exist = 1, answer_email =" admin", answer_name = "관리자",
+		answer_title = #{answer_title}, answer_content = #{answer_content},
+		answer_date = CURRENT_TIMESTAMP() WHERE qna_no = #{qna_no}
+	</update>
+
+	<update id="updateAnswer">
+		UPDATE qnatemp SET answer_title = #{answer_title},
+		answer_content = #{answer_content} WHERE qna_no = #{qna_no}
+	</update>
+
+	<update id="deleteAnswer">
+		UPDATE qnatemp SET answer_exist = 0, answer_email = "0", answer_name = "0", answer_title = "0",
+		answer_content = "0", answer_report = 0 WHERE qna_no =#{qna_no}
+	</update>
+
+	<select id="getQnaListCnt" resultType="int">
+		SELECT count(*) as listCnt FROM qnatemp WHERE 1 = 1
+		<include refid="search"></include>
+	</select>
+
+	<select id="checkQnaReport" resultType="qna">
+		SELECT * FROM reporttemp WHERE report_qnanum = #{qna_no} AND report_email = #{report_email}
+		AND report_type = 0
+	</select>
+
+	<update id="updateQnaReport">
+		UPDATE qnatemp SET qna_report = qna_report + 1
+		WHERE qna_no = #{qna_no}
+	</update>
+
+	<insert id="insertQnaReport">
+		INSERT INTO reporttemp(report_email, report_qnanum,
+		report_type) VALUES (#{report_email}, #{qna_no}, 0)
+	</insert>
+
+	<select id="getNoAnswerList" resultType="qna">
+		SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY qna_no DESC) AS rNum
+		FROM qnatemp WHERE 1 = 1 AND answer_exist = 0
+		<include refid="search"></include>
+		) qt
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY qna_no DESC
+	</select>
+
+	<select id="getNoAnswerListCnt" resultType="int">
+		SELECT count(*) as listCnt FROM qnatemp WHERE 1=1
+		AND answer_exist = 0
+		<include refid="search"></include>
+	</select>
+
+	<select id="getReportedList" resultType="qna">
+		SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY qna_no DESC) AS rNum,
+		qna_report + answer_report AS totalreport FROM qnatemp
+		WHERE 1 = 1 AND (qna_report + answer_report >= 1)
+		<include refid="search"></include>
+		) qt WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY totalreport DESC, qna_no DESC
+	</select>
+
+	<select id="getReportedListCnt" resultType="int">
+		SELECT count(*) AS listCnt FROM qnatemp WHERE 1 = 1
+		AND (qna_report >= 1 || answer_report >= 1)
+		<include refid="search"></include>
+	</select>
+
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND qna_title LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'c'.toString()">AND qna_content LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'w'.toString()">AND qna_name LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'tc'.toString()">AND (qna_title LIKE CONCAT('%',#{keyword},'%')) OR (qna_content LIKE CONCAT('%',#{keyword},'%'))</if>
+		</if>
+	</sql>
+
+</mapper>

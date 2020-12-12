@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+@import "../../style.css";
+
+table>tbody>tr {
+	cursor: pointer;
+}
+
+table {
+	min-width: 500px;
+	text-align: center;
+}
+
+table>tbody>tr {
+	cursor: pointer;
+}
+
+.table td, .table th {
+	padding: .75em .5em;
+}
+
+#searchForm {
+	float: right;
+}
+
+#toDate, #search {
+	margin-right: 10px;
+}
+
+input[type=submit] {
+	height: 33px;
+	margin-bottom: 4px;
+}

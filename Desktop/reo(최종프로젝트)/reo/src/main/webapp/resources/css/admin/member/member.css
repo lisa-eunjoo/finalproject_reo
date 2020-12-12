@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+@import "../../common.css";
+
+@import "../nav.css";
+
+.title {
+	margin-bottom: 15px;
+	padding: 5px;
+}
+
+#searchForm {
+	float: right;
+	margin-bottom: 10px;
+}
+
+table.table-bordered {
+	border: 0px;
+}
+
+table tr.row {
+	margin: 0;
+}
+
+th label {
+	margin: 0;
+}
+
+td a {
+	color: #704DE4;
+}
+
+td a:hover {
+	color: #704DE4AA;
+}
+
+.table-bordered tfoot td {
+	border: 0px;
+}
+
+[name=searchType], [name=searchKeyword] {
+	height: 33px;
+}
+
+#toDate, #search {
+	vertical-align: top;
+	height: 33px;
+}
+
+#fromDate {
+	vertical-align: top;
+	height: 33px;
+}
+
+#submitBtn {
+	vertical-align: top;
+	margin-left: 10px;
+	height: 33px;
+}
+
+.flex {
+	display: flex;
+}
+
+.btnList {
+	float: right;
+	margin-top: 15px;
+}
+
+.flex {
+	display: flex;
+}
+
+.btnList {
+	float: right;
+	margin-top: 15px;
+}
+
+#memberForm {
+	text-align: center;
+	font-size: 21px;
+}
+
+.check {
+	color: #FF2222;
+	text-align: left;
+}
+
+.infoLink {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.red {
+	color: #FF2222;
+	font-size: 14px;
+}
+
+.green {
+	color: #22FF22;
+	font-size: 14px;
+}

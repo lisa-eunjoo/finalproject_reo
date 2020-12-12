@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.reo.admin.map.dao.MapDAO">
+	<insert id="insertMap">
+	INSERT INTO map(map_address, map_si, map_gu, map_dong, map_la, map_ln, mem_email, off_no) 
+	VALUE(#{map_address}, #{map_si}, #{map_gu}, #{map_dong}, #{map_la}, #{map_ln}, #{mem_email}, #{off_no})
+	</insert>
+
+	<select id="getMapOne" parameterType="int" resultType="office">
+	SELECT map_address, map_dong, map_gu, map_la, map_ln , map_si, off_no FROM map WHERE off_no = #{off_no}
+	</select>
+
+	<select id="getSearchDong" resultType="remap" parameterType="string">
+	SELECT * FROM map_dong_table <include refid="mapSearchOption"></include> LIMIT 5
+	</select>
+
+	<sql id="mapSearchOption">
+		WHERE (
+			MAP_DONG  LIKE CONCAT('%', #{dong},'%') OR
+			MAP_GU LIKE CONCAT('%', #{dong},'%')
+		) 
+	</sql>
+</mapper>

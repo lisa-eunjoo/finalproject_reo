@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- Alias 설정 -->
+	<typeAliases>
+		<typeAlias alias="pay" type="kr.co.reo.common.dto.PayDTO" />
+		<typeAlias alias="member" type="kr.co.reo.common.dto.MemberDTO" />
+		<typeAlias alias="sns" type="kr.co.reo.common.dto.SnsDTO"/>
+		<typeAlias alias="auth" type="kr.co.reo.common.dto.AuthorityDTO" />
+		<typeAlias alias="loginLog" type="kr.co.reo.common.dto.LoginLogDTO" />
+		<typeAlias alias="chart" type="kr.co.reo.common.dto.ChartDTO" />
+		<typeAlias alias="qna" type="kr.co.reo.common.dto.QnaDTO" />
+		<typeAlias alias="office" type="kr.co.reo.common.dto.OfficeDTO"/>
+		<typeAlias alias="offimgs" type="kr.co.reo.common.dto.OffImgsDTO"/>
+		<typeAlias alias="offopts" type="kr.co.reo.common.dto.OffOptDTO"/>
+		<typeAlias alias="wish" type="kr.co.reo.common.dto.WishDTO"/>
+		<typeAlias alias="remap" type="kr.co.reo.common.dto.MapDTO"/>
+		<typeAlias alias="reservation" type="kr.co.reo.common.dto.ReservationDTO"/>
+		<typeAlias alias="androidSearch" type="kr.co.reo.common.dto.AndroidSearchDTO" />
+	</typeAliases>
+</configuration>

@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+@import "../nav.css";
+
+.title {
+	margin-bottom: 15px;
+	padding: 5px;
+}
+
+.payInfo {
+	margin: 0 auto;
+	max-width: 550px;
+	height: 750px;
+	padding: 15px;
+	border: 1px solid #222222;
+	font-size: 24px;
+	overflow: overlay;
+	word-break: keep-all;
+	white-space: nowrap;
+}
+
+.payInfo hr {
+	border: 2px solid #555555;
+}
+
+.good {
+	margin-bottom: 16px;
+	font-weight: bold;
+}
+
+.price {
+	font-size: 32px;
+	font-weight: bold;
+}
+
+.infoTitle {
+	font-size: 20px;
+}
+
+.infoContent td:first-child {
+	padding-right: 30px;
+}
+
+table td:first-child {
+	color: #666666;
+	padding-right: 24px;
+}
+
+.infoBtn {
+	float: right;
+	margin-top: 10px;
+}

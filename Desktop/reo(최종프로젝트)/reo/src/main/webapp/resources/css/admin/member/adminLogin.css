@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@import "../../common.css";
+
+.input-group {
+	margin-bottom: 15px;
+}
+
+#login-form>input[type=submit] {
+	margin-top: 25px;
+}
+
+.form-control {
+	height: 50px;
+}

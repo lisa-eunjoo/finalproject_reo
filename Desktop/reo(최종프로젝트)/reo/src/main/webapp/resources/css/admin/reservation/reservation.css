@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+th, td {
+	text-align: center;
+}
+
+.myinfo {
+	width: 50%;
+	margin: auto;
+}
+
+.flex {
+	display: table-cell;
+}
+
+.refund .flex.tit {
+	width: 77px;
+	padding-top: 0;
+	color: #656565;
+}
+
+.refund {
+	padding: 12px 0 11px;
+	border-bottom: 1px solid lightgray;
+}
+
+.list_wrap {
+	border-left: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+	padding: 16px 30px;
+	line-height: 1.5;
+	width: 100%;
+}
+
+.refund .flex.tit {
+	width: 170px;
+}
+
+td a {
+	color: #704DE4;
+}
+
+td a:hover {
+	color: #704DE4AA;
+}

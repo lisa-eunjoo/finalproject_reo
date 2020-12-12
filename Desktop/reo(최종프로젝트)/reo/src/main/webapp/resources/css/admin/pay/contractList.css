@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+@import "../nav.css";
+
+.title {
+	margin-bottom: 15px;
+	padding: 5px;
+}
+
+table>tbody>tr {
+	cursor: pointer;
+}
+
+table {
+	min-width: 650px;
+	text-align: center;
+}
+
+table>tbody>tr {
+	cursor: pointer;
+}
+
+table tr.row {
+	margin: 0;
+}
+
+.table td, .table th {
+	padding: .75em .5em;
+}
+
+#searchForm {
+	float: right;
+	margin-bottom: 10px;
+}
+
+#searchType {
+	vertical-align: top;
+	height: 33px;
+}
+
+#toDate, #search {
+	margin-right: 10px;
+}
+
+input[type=submit] {
+	height: 33px;
+	margin-bottom: 4px;
+}

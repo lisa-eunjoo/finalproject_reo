@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+@import url(https://fonts.googleapis.com/css2?family=Cute+Font&family=Do+Hyeon&family=Jua&display=swap);
+
+body {
+	margin: 0 auto;
+}
+
+.comFont {
+	font-size: 18px;
+}
+
+.wordBreak {
+	word-break: break-word;
+}
+
+.textCenter {
+	text-align: center;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.textRight {
+	text-align: right;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.floatRight {
+	float: right;
+}
+
+.clearBoth {
+	clear: both;
+}
+
+a, a:hover, a:active, a:focus {
+	text-decoration: none;
+	cursor: pointer;
+	color: black;
+}
+
+.reo {
+	font-size: 55px;
+	color: #6432FF;
+	font-style: italic;
+}
+
+.reo img {
+	width: 140px;
+	height: 110px;
+	border-radius: 50% / 60%;
+	background-color: #FEFEFE;
+}
+
+.reo>a {
+	font-size: 55px;
+	color: #6432FF;
+	font-style: italic;
+	vertical-align: middle;
+}
+
+.logo {
+	margin: 0 auto;
+	width: 240px;
+	height: 200px;
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+
+.logo img {
+	width: 240px;
+	height: 200px;
+	border-radius: 50% / 60%;
+	background-color: #FEFEFE;
+}
+
+.errorBox {
+	padding: 50px 0;
+	border: 1px solid #333333;
+	text-align: center;
+	min-width: 80%;
+}
+
+.errorBox>.fas {
+	font-size: 52pt;
+	color: #FF2222;
+	margin-bottom: 20px;
+}
+
+section, main {
+	min-height: calc(100vh - 150px);
+}
+
+footer {
+	height: 150px;
+	background: #ededed;
+}
+
+.adminLoginCheck {
+	color: #FF2222;
+	font-size: 18px;
+}

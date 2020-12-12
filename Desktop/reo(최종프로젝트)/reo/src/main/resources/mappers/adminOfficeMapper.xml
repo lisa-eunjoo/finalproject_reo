@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.reo.admin.office.dao.AdminOfficeDAO">
+	<!-- 오피스 전체 리스트 -->
+	<select id="getOfficeList" resultType="office">
+		SELECT * FROM office ORDER
+		BY off_no DESC LIMIT #{LIMIT} OFFSET #{OFFSET}
+	</select>
+
+	<select id="getOfficeListCount" resultType="int">
+		SELECT COUNT(*) FROM
+		office
+	</select>
+
+	<select id="getOfficeListByUnit" resultType="office"
+		parameterType="map">
+		SELECT * FROM office
+		<include refid="whereSql" />
+		<include refid="andSql" />
+		AND
+		<include refid="searchoption" />
+		<include refid="orderbySql" />
+		<include refid="limitSql" />
+	</select>
+	<sql id="searchoption">
+		<choose>
+			<when test="keyword != '' and keyword != null">
+				(
+				OFF_NAME LIKE CONCAT('%', #{keyword},'%') OR
+				OFF_STDADDR LIKE CONCAT('%', #{keyword},'%') OR
+				OFF_EXTRAADDR LIKE
+				CONCAT('%', #{keyword},'%')
+				)
+			</when>
+			<otherwise>
+				1=1
+			</otherwise>
+		</choose>
+	</sql>
+	<sql id="whereSql">
+		<choose>
+			<when test="off_type != null and off_type != ''">
+				<if test="off_type != '전체'">
+					WHERE (off_type LIKE CONCAT('%', '${off_type}' ,'%'))
+				</if>
+				<if test="off_type == '전체'">
+					WHERE (off_type LIKE CONCAT('%', '공유오피스','%')
+					OR off_type
+					LIKE CONCAT('%', '회의실', '%')
+					OR off_type LIKE CONCAT('%', '세미나실',
+					'%')
+					OR off_type LIKE CONCAT('%', '다목적홀', '%')
+					OR off_type LIKE
+					CONCAT('%', '스터디룸', '%'))
+				</if>
+			</when>
+			<when test="off_unit != null and off_unit != ''">
+				<if test="off_unit != '전체'">
+					WHERE (off_unit = '${off_unit}')
+				</if>
+			</when>
+			<when test="min_price >= 0 and max_price > 0">
+				WHERE (off_rent BETWEEN ${min_price} AND
+				${max_price})
+			</when>
+			<when test="max_price == 0 or min_price != 0">
+				WHERE (off_rent <![CDATA[ >= ]]>
+				${min_price})
+			</when>
+			<when test="off_maxNum != null and off_maxNum != ''">
+				WHERE (off_maxNum <![CDATA[ >= ]]>
+				${off_maxNum})
+			</when>
+			<otherwise>
+				WHERE 1=1
+			</otherwise>
+		</choose>
+	</sql>
+	<sql id="andSql">
+		<if test="off_type != null and off_type != ''">
+			<if test="off_type != '전체'">
+				AND (off_type LIKE CONCAT('%', '${off_type}','%'))
+			</if>
+		</if>
+		<if test="off_unit != null and off_unit != ''">
+			<if test="off_unit != '전체'">
+				AND (off_unit = '${off_unit}')
+			</if>
+		</if>
+		<if test="min_price >= 0 and max_price > 0">
+			AND (off_rent BETWEEN ${min_price} AND ${max_price})
+		</if>
+		<if test="max_price == 0 or min_price != 0">
+			AND (off_rent <![CDATA[ >= ]]>
+			${min_price})
+		</if>
+		<if test="off_maxNum != null and off_maxNum != ''">
+			AND (off_maxNum <![CDATA[ >= ]]>
+			${off_maxNum})
+		</if>
+		<if test="offopt_name != null">
+			<foreach collection="offopt_name" item="option">
+				<if test="option != 'undefined' and option != 'null'">
+					AND (off_no IN (SELECT off_no FROM offoption WHERE
+					offopt_name = '${option}'))
+				</if>
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="orderbySql">
+		<if test="SIDX != null and SORD != null">
+			ORDER BY ${SIDX}
+			<if test='SORD.equalsIgnoreCase("asc")'>ASC</if>
+			<if test='SORD.equalsIgnoreCase("desc")'>DESC</if>
+			, off_no DESC
+		</if>
+	</sql>
+
+	<sql id="limitSql">
+		<if test="LIMIT != null and OFFSET != null">
+			LIMIT ${LIMIT} OFFSET ${OFFSET}
+		</if>
+	</sql>
+
+	<select id="getOffFilterListCount" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*) FROM office
+		<include refid="countWhereSql"></include>
+		<include refid="countAndSql"></include>
+		AND
+		<include refid="countSearchoption" />
+	</select>
+	<sql id="countSearchoption">
+		<choose>
+			<when test="keyword != '' and keyword != null">
+				(
+				OFF_NAME LIKE CONCAT('%', #{keyword},'%') OR
+				OFF_STDADDR LIKE CONCAT('%', #{keyword},'%') OR
+				OFF_EXTRAADDR LIKE CONCAT('%', #{keyword},'%')
+				)
+			</when>
+			<otherwise>
+				1=1
+			</otherwise>
+		</choose>
+	</sql>
+	<sql id="countWhereSql">
+		<choose>
+			<when test="off_type != null and off_type != ''">
+				<if test="off_type != '전체'">
+					WHERE (off_type LIKE CONCAT('%', '${off_type}','%'))
+				</if>
+				<if test="off_type == '전체'">
+					WHERE (off_type LIKE CONCAT('%', '공유오피스','%')
+					OR off_type
+					LIKE CONCAT('%', '회의실', '%')
+					OR off_type LIKE CONCAT('%', '세미나실',
+					'%')
+					OR off_type LIKE CONCAT('%', '다목적홀', '%')
+					OR off_type LIKE
+					CONCAT('%', '스터디룸', '%'))
+				</if>
+			</when>
+			<when test="off_unit != null and off_unit != ''">
+				<if test="off_unit != '전체'">
+					WHERE (off_unit = '${off_unit}')
+				</if>
+			</when>
+			<when test="min_price != 0 and max_price != 0">
+				WHERE (off_rent BETWEEN ${min_price} AND
+				${max_price})
+			</when>
+			<when test="max_price == 0 or min_price != 0">
+				WHERE (off_rent <![CDATA[ >= ]]>
+				${min_price})
+			</when>
+			<when test="off_maxNum != null and off_maxNum != ''">
+				WHERE (off_maxNum <![CDATA[ >= ]]>
+				${off_maxNum})
+			</when>
+			<otherwise>
+				WHERE 1=1
+			</otherwise>
+		</choose>
+	</sql>
+	<sql id="countAndSql">
+		<if test="off_type != null and off_type != ''">
+			<if test="off_type != '전체'">
+				AND (off_type LIKE CONCAT('%', '${off_type}','%'))
+			</if>
+		</if>
+		<if test="off_unit != null and off_unit != ''">
+			<if test="off_unit != '전체'">
+				AND (off_unit = '${off_unit}')
+			</if>
+		</if>
+		<if test="min_price >= 0 and max_price > 0">
+			AND (off_rent BETWEEN ${min_price} AND ${max_price})
+		</if>
+		<if test="max_price == 0 or min_price != 0">
+			AND (off_rent <![CDATA[ >= ]]>
+			${min_price})
+		</if>
+		<if test="off_maxNum != null and off_maxNum != ''">
+			AND (off_maxNum <![CDATA[ >= ]]>
+			${off_maxNum})
+		</if>
+		<if test="offopt_name != null">
+			<foreach collection="offopt_name" item="option">
+				<if test="option != 'undefined' and option != 'null'">
+					AND (off_no IN (SELECT off_no FROM offoption WHERE
+					offopt_name = '${option}'))
+				</if>
+			</foreach>
+		</if>
+	</sql>
+
+	<select id="getAgentNameTel" resultType="Member"
+		parameterType="office">
+		SELECT mem_agentName, mem_tel FROM member
+		WHERE mem_email
+		= #{mem_email};
+	</select>
+
+	<select id="getOffice" resultType="office">
+		SELECT * FROM office WHERE
+		off_no = #{off_no}
+	</select>
+
+	<!-- 사업자의 관련 상품 조회 -->
+	<select id="getOfficeByemail" resultType="office">
+		SELECT * FROM office
+		WHERE mem_email = #{mem_email} AND off_no != #{off_no}
+	</select>
+
+	<insert id="insertOffice">
+		INSERT INTO office(off_name, off_type, off_unit,
+		mem_email, mem_agentName, mem_agentTel, off_rent, off_stdAddr,
+		off_detailAddr, off_extraAddr,
+		off_maxNum, off_feature)
+		VALUES(#{off_name}, #{off_type}, #{off_unit}, #{mem_email},
+		#{mem_agentName},
+		#{mem_agentTel},#{off_rent},#{off_stdAddr},
+		#{off_detailAddr},
+		#{off_extraAddr},
+		#{off_maxNum}, #{off_feature})
+	</insert>
+
+	<insert id="insertOffimgs">
+		INSERT INTO offimgs(off_no, mem_email, offimg_name)
+		VALUES(#{off_no}, #{mem_email}, #{offimg_name})
+	</insert>
+
+	<insert id="insertOffopt">
+		INSERT INTO offoption(off_no, offopt_name)
+		VALUES(#{off_no}, #{offopt_name})
+	</insert>
+
+	<select id="getLatestOffno" resultType="int"
+		parameterType="office">
+		SELECT MAX(off_no) FROM office WHERE mem_email =
+		#{mem_email}
+	</select>
+
+	<!-- 상세페이지에서 사용 -->
+	<select id="getOffimgs" resultType="offimgs">
+		SELECT * FROM offimgs WHERE
+		off_no = #{off_no}
+	</select>
+
+	<select id="getOffopts" resultType="offopts">
+		SELECT * FROM offoption WHERE
+		off_no = #{off_no}
+	</select>
+
+	<!-- 정렬된 리스트 페이지에서 사용 -->
+	<select id="getOffimgOne" resultType="offimgs">
+		SELECT MIN(offimg_no),
+		offimg_name FROM offimgs WHERE off_no = #{off_no}
+	</select>
+
+	<delete id="deleteOffimgs" parameterType="offimgs">
+		DELETE FROM offimgs
+		WHERE off_no = #{off_no} AND mem_email = #{mem_email} AND offimg_name
+		= #{offimg_name}
+	</delete>
+
+	<delete id="deleteOffopts">
+		DELETE FROM offoption WHERE off_no = #{off_no}
+	</delete>
+
+	<update id="updateOffice">
+		UPDATE office SET off_name = #{off_name}, off_type =
+		#{off_type}, off_unit = #{off_unit}, off_rent = #{off_rent},
+		off_stdAddr = #{off_stdAddr},
+		off_detailAddr = #{off_detailAddr},
+		off_extraAddr = #{off_extraAddr}, off_maxNum = #{off_maxNum},
+		off_feature = #{off_feature}
+		WHERE off_no=#{off_no}
+	</update>
+
+	<delete id="deleteOffice">
+		DELETE FROM office WHERE off_no = #{off_no}
+	</delete>
+
+	<!-- 회원의 찜목록가져오기 -->
+	<select id="getSearchWish" resultType="int" parameterType="map">
+		SELECT
+		count(*) FROM wishlist WHERE off_no = #{off_no} AND mem_email =
+		#{mem_email}
+	</select>
+
+	<insert id="insertWish" parameterType="map">
+		INSERT INTO
+		wishlist(off_no, mem_email) VALUES(#{off_no}, #{mem_email})
+	</insert>
+
+	<delete id="deleteWish" parameterType="map">
+		DELETE FROM wishlist WHERE
+		off_no = #{off_no} AND mem_email = #{mem_email}
+	</delete>
+</mapper>

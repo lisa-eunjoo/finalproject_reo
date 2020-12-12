@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<security:http pattern="/admin/.reo" security="none"/>
+	<security:http pattern="/android/**" security="none"/>
+	<security:http pattern="/resMonth.reo" security="none"/>
+	<security:http auto-config="true" use-expressions="true">
+		<security:intercept-url pattern="/admin/login.reo" access="!authenticated"/>
+		<security:intercept-url pattern="/login.reo" access="!authenticated"/>
+		<security:intercept-url pattern="/logout.reo" access="authenticated"/>
+		<security:access-denied-handler 
+			error-page="/admin/.reo"
+		/>
+
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
+
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<security:form-login 
+			username-parameter="mem_email" 
+			password-parameter="mem_pw" 
+			login-page="/login.reo" 
+			login-processing-url="/login" 
+			authentication-failure-url="/login.reo?error=1" 
+			authentication-success-handler-ref="securityService" 
+		/>
+
+		<security:logout 
+			logout-url="/logout.reo" 
+			logout-success-url="/index.reo" 
+			invalidate-session="true"
+		/>
+
+		<security:session-management invalid-session-url="/index.reo">
+			<security:concurrency-control max-sessions="1" expired-url="/index.reo"/>
+		</security:session-management>
+		<security:csrf disabled="true"/>
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/my*" access="authenticated"/>
+		<security:intercept-url pattern="/clientQnaWrite.reo" access="authenticated"/>
+		<security:intercept-url pattern="/delete*" access="authenticated"/>
+		<security:intercept-url pattern="/update*" access="authenticated"/>
+		<security:intercept-url pattern="/qnaReport.reo" access="authenticated"/>
+		<security:intercept-url pattern="/res*" access="authenticated"/>
+		<security:intercept-url pattern="/kPay*" access="authenticated"/>
+		<security:intercept-url pattern="/contract*" access="authenticated"/>
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider ref="securityService"/>
+		<security:authentication-provider user-service-ref="securityUserService">
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>

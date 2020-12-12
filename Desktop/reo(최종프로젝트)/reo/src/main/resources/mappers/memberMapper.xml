@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.reo.client.member.dao.MemberDAO">
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO member(mem_email, mem_name,mem_pw, mem_tel, mem_role, mem_zipcode, mem_roadaddress, mem_detailaddress, 
+		mem_birth, mem_agentName, mem_buisnessNo, mem_sector)
+		VALUES (#{mem_email}, #{mem_name}, #{mem_pw}, #{mem_tel}, #{mem_role}, #{mem_zipcode}, #{mem_roadaddress}, 
+		#{mem_detailaddress}, #{mem_birth}, #{mem_agentName}, #{mem_buisnessNo}, #{mem_sector})
+	</insert>
+
+	<update id="updatePass" parameterType="member">
+		UPDATE member SET mem_pw = #{mem_pw} WHERE mem_email = #{mem_email}
+	</update>
+
+	<update id="updateMember" parameterType="member">
+		UPDATE member SET
+		<choose>
+		<when test="mem_pw != null and mem_pw != ''">
+		mem_pw = #{mem_pw}, mem_tel = #{mem_tel}, mem_zipcode = #{mem_zipcode}, mem_roadaddress = #{mem_roadaddress}, mem_detailaddress = #{mem_detailaddress}, 
+		mem_birth = #{mem_birth} WHERE mem_email = #{mem_email}
+		</when>
+		<otherwise>
+		mem_tel = #{mem_tel}, mem_zipcode = #{mem_zipcode}, mem_roadaddress = #{mem_roadaddress},
+		mem_detailaddress = #{mem_detailaddress}, mem_birth = #{mem_birth} WHERE mem_email = #{mem_email}
+		</otherwise>
+		</choose> 
+	</update>
+
+	<delete id="deleteMember" parameterType="String">
+		DELETE FROM member WHERE mem_email = #{mem_email}
+	</delete>
+
+	<select id="getLoginSns" resultType="sns">
+		SELECT mem_email FROM member WHERE mem_email = #{mem_email}
+	</select>
+
+	<select id="checkEmail" resultType="String">
+		SELECT count(*) FROM member WHERE mem_email = #{mem_email}
+	</select>
+
+	<select id="checkLoginEmail" resultType="member">
+		SELECT * FROM member WHERE mem_email = #{mem_email}
+	</select>
+
+	<insert id="insertLoginLog" parameterType="loginLog">
+		INSERT INTO loginlog (mem_email, log_ip) VALUES (#{mem_email}, #{log_ip});
+	</insert>
+
+	<insert id="insertAuth" parameterType="auth">
+		INSERT INTO authority(mem_no, auth_role, auth_enabled, auth_member, auth_pay, auth_reservation, auth_office, auth_qna)
+		VALUES ((SELECT mem_no FROM member WHERE mem_email = #{mem_email}), #{auth_role}, #{auth_enabled}, #{auth_member}, #{auth_pay}, #{auth_reservation}, 
+		#{auth_office}, #{auth_qna})
+	</insert>
+
+	<update id="deleteAuth" parameterType="String">
+		UPDATE authority SET auth_enabled = 0 WHERE mem_email = #{mem_email}
+	</update>
+
+</mapper>

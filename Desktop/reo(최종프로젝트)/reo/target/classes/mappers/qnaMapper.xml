@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.reo.client.qna.dao.QnaClientDAO">
+
+	<insert id="insertQna">
+		INSERT INTO qnatemp (qna_email, qna_name, qna_title, qna_content, qna_secret, qna_password) 
+		VALUES (#{qna_email}, #{qna_name}, #{qna_title}, #{qna_content}, #{qna_secret}, #{qna_password});
+	</insert>
+	
+	<update id="updateQna">
+		UPDATE qnatemp
+		SET qna_title = #{qna_title}, qna_content= #{qna_content}
+		WHERE qna_no = #{qna_no}
+	</update>
+	
+	<delete id="deleteQna">
+		DELETE FROM qnatemp where qna_no=#{qna_no}
+	</delete>
+	
+	<select id="getQnaList" resultType="qna">
+		SELECT *
+		FROM (
+		SELECT *, ROW_NUMBER() OVER(ORDER BY qna_no DESC) AS rNum 
+		FROM qnatemp
+		WHERE 1=1
+		<include refid="search"></include>
+		) qt
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY qna_no DESC
+	</select>
+	
+	<select id="getMyQnaList" resultType="qna">
+		SELECT * FROM qnatemp WHERE qna_email = #{qna_email}
+	</select>
+	
+	<select id="getQnaListCnt" resultType="int">
+		SELECT count(*) as listCnt FROM qnatemp 
+		WHERE 1=1
+		<include refid="search"></include>
+	</select>
+	
+	<select id="checkQnaReport" resultType="qna">
+		SELECT * FROM reporttemp WHERE report_qnanum = #{qna_no} AND report_email = #{report_email} AND report_type=0
+	</select>
+	
+	<update id="updateQnaReport">
+		UPDATE qnatemp
+		SET qna_report = qna_report+1
+		WHERE qna_no = #{qna_no}
+	</update>
+	
+	<insert id="insertQnaReport">
+		INSERT INTO reporttemp(report_email, report_qnanum, report_type) VALUES (#{report_email}, #{qna_no}, 0);
+	</insert>
+	
+	<select id="getNoAnswerList" resultType="qna">
+		SELECT * FROM qnatemp
+		WHERE answer_exist != 1
+		ORDER BY qna_no DESC
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND qna_title LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'c'.toString()">AND qna_content LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'w'.toString()">AND qna_name LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchType == 'tc'.toString()">AND (qna_title LIKE CONCAT('%',#{keyword},'%')) or (qna_content LIKE CONCAT('%',#{keyword},'%'))</if>
+		</if>
+	</sql>
+	
+</mapper>

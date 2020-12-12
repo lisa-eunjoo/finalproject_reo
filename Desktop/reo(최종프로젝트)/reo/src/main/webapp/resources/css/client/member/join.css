@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700);
+
+body {
+    background: #fff;
+	font-family: 'Roboto', sans-serif;
+	color:#333;
+	line-height: 22px;
+	margin: 0px;
+	padding: 0px;
+}
+
+@media (min-width: 768px) {
+.container {
+	width: 50%;
+	margin: auto;
+	}
+}
+
+.reg_button {
+	margin: auto;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.email {
+	display:inline;
+}
+
+.cel {
+	display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 400;
+	color:#111;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+h1, h2, h3 {
+	text-transform:uppercase;
+}
+
+.form-inline .form-group{
+    margin-left: 0;
+    margin-right: 0;
+}
+.control-label {
+    color:#333333;
+}
+
+.changebtn {
+	padding-left: 30%
+}
+
+.mymodify{
+	margin-top:50px;
+}

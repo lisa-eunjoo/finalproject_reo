@@ -1,0 +1,523 @@
+@charset "UTF-8";
+
+p.peolechoice input {
+	font-size: 18px;
+	width: 50px;
+	padding: 5px;
+	margin: 0;
+	border: 1px solid #eee;
+	text-align: center;
+}
+
+p.peolechoice button {
+	font-size: 20px;
+	border: none;
+	background: none;
+}
+
+/*Bootstrap Calendar*/
+.datepicker {
+	border-radius: 0;
+	padding: 0;
+}
+
+.datepicker-days table thead, .datepicker-days table tbody,
+	.datepicker-days table tfoot {
+	padding: 10px;
+	display: list-item;
+}
+
+body .datepicker-days table thead, .datepicker-months table thead,
+	.datepicker-years table thead, .datepicker-decades table thead,
+	.datepicker-centuries table thead {
+	background: #704DE4;
+	color: #ffffff;
+	border-radius: 0;
+}
+
+.datepicker-days table thead tr:nth-child(2n+0) td, .datepicker-days table thead tr:nth-child(2n+0) th
+	{
+	border-radius: 3px;
+}
+
+.datepicker-days table thead tr:nth-child(3n+0) {
+	text-transform: uppercase;
+	font-weight: 300 !important;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th,
+	.table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th,
+	.table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
+	padding: 11px 13px;
+}
+
+.datepicker-months table thead td, .datepicker-months table thead th,
+	.datepicker-years table thead td, .datepicker-years table thead th,
+	.datepicker-decades table thead td, .datepicker-decades table thead th,
+	.datepicker-centuries table thead td, .datepicker-centuries table thead th
+	{
+	border-radius: 0;
+}
+
+.datepicker td, .datepicker th {
+	border-radius: 50%;
+	padding: 0 12px;
+}
+
+body .datepicker table tr td.active.active, .datepicker table tr td.active:hover,
+	.datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover
+	{
+	background-color: #704DE4;
+	background-image: linear-gradient(to bottom, #704DE4, #A566FF);
+}
+
+.datepicker .prev, .datepicker .next {
+	color: rgba(255, 255, 255, 0.5);
+	transition: 0.3s;
+	width: 37px;
+	height: 37px;
+}
+
+.datepicker .prev:hover, .datepicker .next:hover {
+	background: transparent;
+	color: rgba(255, 255, 255, 0.99);
+	font-size: 21px;
+}
+
+.datepicker .datepicker-switch {
+	font-size: 24px;
+	font-weight: 400;
+	transition: 0.3s;
+}
+
+.datepicker .datepicker-switch:hover {
+	color: rgba(255, 255, 255, 0.7);
+	background: transparent;
+}
+
+.datepicker table tr td span {
+	border-radius: 2px;
+	margin: 3%;
+	width: 27%;
+}
+
+.datepicker table tr td span.active, .datepicker table tr td span.active:hover,
+	.datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover
+	{
+	background-color: #3546b3;
+	background-image: none;
+}
+
+.dropdown-menu {
+	border: 1px solid rgba(0, 0, 0, .1);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.datepicker-dropdown.datepicker-orient-top:before {
+	border-top: 7px solid rgba(0, 0, 0, .1);
+}
+
+label
+
+
+
+
+.btn
+
+
+
+
+:not
+
+
+
+
+(
+.btn-flat
+
+
+ 
+
+
+)
+{
+background-color
+
+
+
+
+:
+
+
+ 
+
+
+#35DDE0
+
+
+
+
+;
+color
+
+
+
+
+:
+
+
+ 
+
+
+#333
+
+
+
+
+;
+}
+.timefont {
+	overflow-x: scroll;
+	white-space: nowrap;
+	padding: 1px;
+}
+
+input type[checkbox] {
+	width: 50px;
+	min-width: 50px;
+	height: 40px;
+	margin: -5px"
+}
+
+.res_check_box {
+	display: inline-block;
+}
+
+.res_check_box>span {
+	margin-left: -10px;
+}
+
+.res_check_box:last-child>span:nth-child(2) {
+	margin-left: 12px;
+}
+
+.res_check_box input.chktime {
+	width: 30px;
+	height: 30px;
+}
+
+.datepicker {
+	font-weight: bold;
+}
+
+ul, li {
+	list-style: none;
+}
+
+#booking_area {
+	display: inline-block;
+	text-align: left;
+	font-size: 16px;
+	padding: 0px;
+}
+
+span.color_disable {
+	border: 7px solid #ccc;
+	display: inline-block;
+}
+
+span.color_today {
+	border: 7px solid #ffd014;
+	display: inline-block;
+}
+
+span.color_select {
+	border: 7px solid #704de4;
+	display: inline-block;
+}
+
+span.color_time {
+	border-style: solid 2px;
+	display: inline-block;
+}
+
+span.color_timesel {
+	border: 7px solid blue;
+	display: inline-block;
+}
+
+/*상세페이지*/
+table {
+	margin-bottom: 50px;
+}
+
+@media ( min-width : 576px) {
+	table tr .title {
+		background: mediumpurple;
+		color: white;
+		font-weight: bold;
+		padding: 15px;
+		width: 150px;
+		text-align: center;
+	}
+}
+
+@media ( max-width : 575px) {
+	table tr .title {
+		background: mediumpurple;
+		color: white;
+		font-weight: bold;
+		padding: 15px;
+		text-align: center;
+	}
+}
+
+table tr.text {
+	padding: 20px;
+	text-align: left;
+}
+
+.resheading {
+	text-align: center;
+	margin: 0 auto;
+	top: 20px;
+	width: 50%;
+	height: 100px;
+	position: relative;
+}
+
+/* booking area */
+#now {
+	padding: 10px 10px 0px 15px;
+}
+
+@media ( min-width : 992px) {
+	.nowbooking_area {
+		border: 2px solid #6432FF;
+		width: 100%;
+		margin-top: 131px;
+		text-align: center;
+		font-size: 16px;
+	}
+}
+
+@media ( max-width : 991px) {
+	.nowbooking_area {
+		border: 2px solid #6432FF;
+		width: 100%;
+		text-align: center;
+		font-size: 16px;
+	}
+}
+
+#nowbooking {
+	border-bottom: 1px solid lightgray;
+	padding-bottom: 10px;
+}
+
+.bookingdate {
+	border-bottom: 1px solid lightgray;
+}
+
+.color_desc {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#bookingtime {
+	margin-top: 15px;
+	margin-left: 10px;
+	margin-bottom: 1px;
+	padding: 0px;
+}
+
+.bookingpeople {
+	text-align: left;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
+}
+
+.roomprice {
+	margin-top: 15px;
+	border-bottom: 1px solid lightgray;
+}
+
+.roomprice {
+	margin-bottom: 10px;
+	margin-top: 15px;
+	border-bottom: 1px solid lightgray;
+}
+
+.usernotice {
+	text-align: left;
+	margin-top: 10px
+}
+
+.usernotice span {
+	color: red;
+}
+
+.noti {
+	margin: 5px 0px;
+}
+
+.check_list {
+	width: 50px;
+	min-width: 50px;
+	height: 40px;
+	margin: -5px"
+}
+
+.input-group {
+	margin-bottom: 20px;
+}
+
+.table td, .table th {
+	border-top: 1px solid #dee2e6;
+}
+
+input[type="radio"] {
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.bookbttn {
+	padding: 10px 0px 0px 0px;
+	height: 50px;
+	margin: 0px;
+}
+
+.bookbttn input {
+	padding: 0px;
+	background-color: #6432FF;
+	border: 0px;
+	border-radius: 0px;
+	color: white;
+	cursor: pointer;
+}
+
+.bookbttn input:focus {
+	background-color: #6432FF;
+	color: #000000;
+}
+
+.bookbttn input:hover {
+	color: #ffffff;
+}
+
+@media ( min-width : 768px) {
+	.carousel-item img {
+		width: 100%;
+		height: 500px;
+	}
+}
+
+@media ( max-width : 767px) {
+	.carousel-item img {
+		width: 100%;
+		height: 300px;
+	}
+}
+
+.list_wrap dt {
+	font-size: 1.2rem
+}
+
+.list_wrap dd {
+	font-size: 1.1rem
+}
+
+.acolor {
+	text-decoration: underline;
+	text-decoration-color: rebeccapurple;
+}
+
+input[type="button"] {
+	font-family: FontAwesome;
+	font-size: 18px;
+}
+
+/* reservDetail 변경 */
+.carousel-item img {
+	height: 500px;
+	width: 100%;
+}
+/*
+.carousel-indicators li {
+	position: relative;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 1 auto;
+	flex: 0 1 auto;
+	width: 30px;
+	height: 3px;
+	margin-right: 250px;
+	margin-left: 3px;
+	text-indent: -999px;
+	background-color: rgba(255, 255, 255, .5);
+}*/
+.flex {
+	display: table-cell;
+}
+
+.refund .flex.tit {
+	width: 77px;
+	padding-top: 0;
+	color: #656565;
+}
+
+.refund {
+	padding: 12px 0 11px;
+	border-bottom: 1px solid lightgray;
+}
+
+.list_wrap {
+	border-left: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+	padding: 16px 30px;
+	line-height: 1.5;
+	width: 100%;
+}
+
+.refund .flex.tit {
+	width: 125px;
+	font-size: 16px;
+}
+
+.slide {
+	text-align: center;
+}
+
+#resimg {
+	text-align: center;
+}
+
+.myinfo {
+	width: 100%;
+}
+
+.list_wrap dd {
+	font-size: 16px;
+}
+
+#reslink {
+	text-decoration: none;
+	cursor: pointer;
+	color: mediumpurple;
+	font-weight: bold;
+}
+
+.resApply {
+	color: #4374D9;
+}
+
+.resSuccess {
+	color: #47C83E;
+}
+
+.resCancel {
+	color: #CC3D3D;
+}

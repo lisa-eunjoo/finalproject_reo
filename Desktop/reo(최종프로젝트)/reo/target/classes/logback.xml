@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOG_PATH" value="${user.home}/Reo/log"/>
+	<property name="LOG_FILE_NAME" value="ReoLog"/>
+	<property name="LOG_PATTERN" value="[%p %d{yy-MM-dd HH:mm:ss.SS}] msg[%msg] - %logger{5}%n"/>
+	
+	<!-- 콘솔 로그 -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<!-- 로그 메시지 패턴 -->
+			<Pattern>
+				${LOG_PATTERN}
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- 파일 로그 -->
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				${LOG_PATTERN}
+			</Pattern>
+		</encoder>
+
+		<!-- .gz, .zip 등을 넣으면 자동 로그파일 압축 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log.zip</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 파일당 최고 용량 KB, MB, GB -->
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 일자별 로그파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거-->
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<!-- name 아래 패키지 로그들만 consoleAppender, fileAppender 방법으로 로그를 남긴다.
+		<appender-ref ref="name"/>를 추가하여 여러방법 로그를 남길 수 있다. -->
+	<logger name="kr.co.reo" level="info" additivity="false">
+		<appender-ref ref="consoleAppender"/>
+		<appender-ref ref="fileAppender"/>
+	</logger>
+
+	<!-- root는 글로벌 로거를 의미하며, 위의 logger에 해당하지 않으면 root 로거가 실행된다. -->
+	<root level="info">
+		<appender-ref ref="consoleAppender"/>
+		<appender-ref ref="fileAppender"/>
+	</root>
+
+</configuration>

@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+@import "../../common.css";
+
+.windowMenu {
+	width: 1185px;
+	height: 35px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-size: 24px;
+}
+
+.windowMenu i {
+	float: right;
+	margin-right: 10px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.tableTitle {
+	background: #DFDFDFDF;
+	font-weight: bold;
+}
+
+.row {
+	margin: 0px;
+}
+
+.table {
+	width: 1160px;
+	min-width: 1160px;
+	max-width: 1160px;
+}
+
+table th, table td {
+	border: 1px solid #333333;
+}
+
+.table th, .table td {
+	padding: 0.6em;
+}
+
+table th:nth-child(n + 2), table td:nth-child(n + 2) {
+	border-left: 0px;
+}
+
+table .tableBorderTop {
+	border-top: 1px solid #333333;
+}
+
+.indent {
+	text-indent: 5%;
+}
+
+span.outdent {
+	text-indent: -5%;
+	padding-left: 5%;
+	display: inline-block;
+}
+
+table .title {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.titlebar td {
+	font-size: 28px;
+	font-weight: bold;
+	padding-top: 0.4em;
+	padding-bottom: 0.4em;
+}
+
+.contract {
+	height: 320px;
+}

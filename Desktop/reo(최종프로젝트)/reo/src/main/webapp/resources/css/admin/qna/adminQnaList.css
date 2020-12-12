@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+@import "../../style.css";
+
+@import "../nav.css";
+
+li {
+	list-style: none;
+}
+
+table {
+	vertical-align: middle;
+	text-align: center;
+	table-layout: fixed;
+}
+
+th {
+	vertical-align: middle;
+	text-align: center;
+}
+
+.qnabtn {
+	text-align: right;
+}
+
+.qnacontent {
+	font-size: 20px;
+}
+
+.panel-body {
+	margin-top: 10px;
+}
+
+.allCheck {
+	float: left;
+	width: 200px;
+}
+
+.allCheck input {
+	width: 16px;
+	height: 16px;
+}
+
+.allCheck label {
+	margin-left: 10px;
+}
+
+.delBtn {
+	float: right;
+	width: 300px;
+	text-align: right;
+}
+
+.delBtn button {
+	font-size: 18px;
+	padding: 5px 10px;
+	border: 1px solid #eee;
+	background: #eee;
+}
+
+pre {
+	font-family: "맑은 고딕", "Malgun Gothic", 굴림, Gulim, sans-serif;
+	white-space: pre-wrap;
+}
+
+.panel-title>a {
+	display: block;
+	position: relative;
+	right: 50px;
+	top: 10px;
+}
+
+.panel-title>a:after {
+	content: "\f139";
+	/* fa-chevron-down */
+	font-family: 'FontAwesome';
+	position: absolute;
+	right: 0;
+}
+
+.panel-title>a[aria-expanded="true"]:after {
+	content: "\f139";
+	/* fa-chevron-up */
+}
+
+.panel-title>a[aria-expanded="false"]:after {
+	content: "\f13a";
+	/* fa-chevron-down */
+}
+
+.btn-group {
+	position: relative;
+	right: 60px;
+	top: -10px;
+}
+
+.qnaMenu a {
+	color: #704DE4;
+	font-weight: bold;
+}
+
+.qnaMenu a:hover {
+	color: #704DE4AA;
+}

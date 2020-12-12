@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+@import "./nav.css";
+
+#ageChart, #topPayChart, #dateCountChart {
+	max-height: 450px;
+	min-height: 350px;
+}
+
+.visitorCount {
+	position: absolute;
+	top: 1%;
+	right: 3%;
+	font-weight: bolder;
+}
+
+caption {
+	caption-side: top;
+	text-align: center;
+	font-size: 24px;
+	color: #333333;
+	font-weight: bolder;
+}
+
+table th, table td {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+}
+
+#wordcloudTitle {
+	padding: .75rem 0;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 24px;
+	color: #333333;
+	font-weight: bolder;
+}
+
+#wordcloud {
+	width: 85%;
+	padding: 0 15px;
+}
+
+@media ( min-width : 768px) and ( max-width : 1500px) {
+	table tbody tr:nth-child(n+7) {
+		display: none;
+	}
+}
+
+@media ( min-width : 768px) and ( max-width : 1300px) {
+	table tbody tr:nth-child(n+6) {
+		display: none;
+	}
+}
+
+@media ( min-width : 768px) and ( max-width : 1200px) {
+	table tbody tr:nth-child(n+5) {
+		display: none;
+	}
+}

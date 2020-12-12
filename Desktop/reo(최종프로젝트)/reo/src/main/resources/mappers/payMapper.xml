@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.reo.client.pay.dao.PayDAO">
+
+	<select id="getMyPayList" parameterType="pay" resultType="pay">
+		<!-- SELECT pay_no, off_no, pay_price, pay_state, pay_date FROM pay WHERE mem_email = #{mem_email} ORDER BY pay_no DESC LIMIT #{LIMIT} OFFSET #{OFFSET} -->
+		SELECT * FROM pay LEFT JOIN office USING(off_no)
+		WHERE (pay.mem_email = #{mem_email}) AND (pay_date BETWEEN #{fromDate} AND DATE_ADD(#{toDate}, INTERVAL 1 DAY))
+		AND ((off_name LIKE CONCAT('%', #{search}, '%')) 
+		<if test="search == ''">
+			OR (off_name IS NULL)
+		</if>
+		) AND pay_state NOT IN('결제대기', '결제전취소') 
+		ORDER BY pay_no DESC LIMIT #{LIMIT} OFFSET #{OFFSET}
+	</select>
+
+	<select id="getPayListCount" parameterType="pay" resultType="int">
+		SELECT COUNT(*) as count FROM pay LEFT JOIN office USING(off_no)
+		WHERE (pay.mem_email = #{mem_email}) AND (pay_date BETWEEN #{fromDate} AND DATE_ADD(#{toDate}, INTERVAL 1 DAY))
+		AND ((off_name LIKE CONCAT('%', #{search}, '%')) 
+		<if test="search == ''">
+			OR (off_name IS NULL)
+		</if>
+		) AND pay_state NOT IN('결제대기', '결제전취소') 
+	</select>
+
+	<select id="getPayInfo" resultType="pay">
+		SELECT pay_no, res_no, pay.mem_email, pay.off_name, pay_price, pay_date, pay_type, 
+		pay_card, pay_bin, pay_state, pay_tid, res_startdatetime, pay_remark, off_unit FROM (SELECT pay_no, res_no, pay.mem_email, off_name, 
+		pay_price, pay_date, pay_type, pay_card, pay_bin, pay_state, pay_tid, pay_remark FROM pay LEFT JOIN office USING(off_no)
+		WHERE pay.mem_email = #{mem_email} AND 
+		<choose>
+			<when test="pay_no == null">
+				res_no = #{res_no}
+			</when>
+			<otherwise>
+				pay_no = #{pay_no}
+			</otherwise>
+		</choose>
+		) pay LEFT JOIN reservation USING(res_no) ORDER BY pay_no DESC LIMIT 1
+	</select>
+
+	<insert id="insertReadykPay" parameterType="pay">
+		INSERT INTO pay (pay_no, res_no, mem_email, off_no, pay_price, pay_date, pay_beforedate, pay_tid) 
+		VALUES (#{pay_no}, #{res_no}, #{mem_email}, #{off_no}, #{pay_price}, #{pay_date}, #{pay_beforedate}, #{pay_tid})
+	</insert>
+
+	<select id="getReadykPayInfo" parameterType="pay" resultType="pay">
+		SELECT pay_tid, pay_no, off_unit FROM pay LEFT JOIN reservation USING(off_no) WHERE pay.mem_email = #{mem_email} AND pay_state = #{pay_state} ORDER BY pay_beforedate DESC LIMIT 1
+	</select>
+
+	<update id="updateApprovekPay" parameterType="pay">
+		UPDATE pay SET pay_date = #{pay_date}, pay_type = #{pay_type}, pay_card = #{pay_card}, pay_bin = #{pay_bin}, pay_state = #{pay_state} WHERE pay_no = #{pay_no} AND mem_email = #{mem_email}
+	</update>
+
+	<update id="updatekPayType" parameterType="pay">
+		UPDATE pay SET 
+		<choose>
+			<when test="pay_remark != null and !pay_remark.equals('')">
+				pay_remark = #{pay_remark} 
+			</when>
+			<otherwise>
+				pay_state = #{pay_state} 
+			</otherwise>
+		</choose>
+		WHERE pay_no = 
+		<choose>
+			<when test="pay_no != null and !pay_no.equals('')">
+				#{pay_no} AND pay_state = '결제완료' 
+			</when>
+			<otherwise>
+				(SELECT pay_no FROM pay WHERE mem_email = #{mem_email} AND pay_state = #{pay_type} ORDER BY pay_beforedate DESC LIMIT 1) 
+			</otherwise>
+		</choose>
+		AND mem_email = #{mem_email}
+	</update>
+
+	<select id="getOffName" resultType="String">
+		SELECT off_name FROM office WHERE off_no = #{off_no}
+	</select>
+
+	<select id="getContractMintInfo" parameterType="String" resultType="Map">
+		SELECT pay_no, mem_name, pay.mem_email, room_price, pay_date, res_startdatetime, 
+		res_enddatetime, off_stdAddr, off_detailAddr, off_extraAddr 
+		FROM (SELECT pay_no, mem_name, pay.mem_email, room_price, pay_date, 
+		res_startdatetime, res_enddatetime, pay.off_no FROM 
+		(SELECT * FROM pay WHERE pay_no = #{pay_no}) pay LEFT JOIN reservation 
+		USING(res_no)) pay LEFT JOIN office USING(off_no);
+	</select>
+
+	<select id="getContractMemberInfo" parameterType="String" resultType="Map">
+		SELECT mem_tel, mem_roadaddress, mem_detailaddress, mem_birth 
+		FROM member WHERE mem_email = #{mem_email}
+	</select>
+
+	<select id="getContractOfficeInfo" parameterType="String" resultType="Map">
+		SELECT off_type, off_maxNum, mem_tel, mem_roadaddress, mem_detailaddress, office.mem_agentName, 
+		mem_buisnessNo FROM office LEFT JOIN member USING(mem_email) WHERE off_no = 
+		(SELECT off_no FROM pay WHERE pay_no = #{pay_no});
+	</select>
+
+	<!-- 회원 예약해서 오늘 날짜면 예약 신청에 update -->
+	<update id="updateResSuccess" parameterType="String">
+		UPDATE reservation SET
+		res_state = '예약완료' WHERE res_no in (SELECT res_no FROM pay WHERE
+		Pay_no = #{Pay_no})
+	</update>
+
+	<update id="updateResCancel" parameterType="pay">
+		UPDATE reservation SET res_state = '예약취소' WHERE res_no = 
+		<choose>
+			<when test="pay_no != null and !pay_no.equals('')">
+				(SELECT res_no FROM pay WHERE pay_no = #{pay_no} AND mem_email = #{mem_email}) 
+			</when>
+			<otherwise>
+				#{res_no} 
+			</otherwise>
+		</choose>
+		AND res_state != '예약취소' AND mem_email = #{mem_email}
+	</update>
+
+</mapper>
